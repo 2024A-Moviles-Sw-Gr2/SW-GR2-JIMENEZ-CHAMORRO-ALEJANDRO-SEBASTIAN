@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">2024ASWGR2ASJC</string>
+    <string name="saludo">Spanish Landscape!</string>
+    <color name="bgColor">#968574</color>
+    <color name="textColor">#142536</color>
+</resources>

@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">2024ASWGR2ASJC</string>
+    <string name="app_name" translatable="false">2024ASWGR2ASJC</string>
+    <string name="saludo">Hola Mundo</string>
+
+    <string-array name="string_array_opciones">
+        <item>Lunes</item>
+        <item>Martes</item>
+        <item>Miercoles</item>
+    </string-array>
 </resources>

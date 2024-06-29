@@ -49,6 +49,96 @@ fun main() {
 
     calcularSueldo(10.0)
     calcularSueldo(10.0, bonoEspecial = 20.0)
+
+    // Usando las clases
+    val suma = Suma(1, 2)
+    val sumaDos = Suma(null, 1)
+    val sumaTres = Suma(1, null)
+    val sumaCuatro = Suma(null, null)
+    // Sumando
+    suma.sumar()
+    sumaDos.sumar()
+    sumaTres.sumar()
+    sumaCuatro.sumar()
+    // Companion Object
+    println(Suma.pi)
+    println(Suma.elevarAlCuadrado(2))
+    println(Suma.historialSumas)
+    // Arreglos estáticos
+    val arregloEstático: Array<Int> = arrayOf(1, 2, 3)
+    println(arregloEstático)
+    // Arreglo dinámico
+    val arregloDinámico: ArrayList<Int> = arrayListOf(1, 2, 3, 4, 5, 6)
+    println(arregloDinámico)
+    arregloDinámico.add(7)
+    arregloDinámico.add(8)
+    println(arregloDinámico)
+
+    // FOR EACH => Unit (devuelve void)
+    // Iterar un arreglo
+    println("\n ** Primera forma **")
+    val respuestaForEach: Unit = arregloDinámico.forEach {
+        valorActual: Int ->
+            println("Valor actual: ${valorActual}");
+        }
+
+    // "it" (en ignlés "eso") significa el elemento iterado
+    println("\n ** Segunda forma **")
+    arregloDinámico.forEach { println("Valor actual (it): ${it}") }
+
+    // MAP -> MUTA(Modifica, cambia) el arreglo
+    // 1) Enviamos el nuevo valor de la iteración
+    // 2) Nos devuelve un NUEVO ARREGLO con valores de las iteraciones
+
+    val respuestaMap: List<Double> = arregloDinámico
+        .map { valorActual: Int ->
+            return@map valorActual.toDouble() + 100.00
+        }
+
+    println("\n" + respuestaMap)
+
+    val respuestaMapDos = arregloDinámico.map { it + 15 }
+
+    println("\n" + respuestaMapDos)
+
+    // Filter -> Filtrar el ARREGLO
+    // 1) Devolver una expresión (TRUE O FALSE)
+    // 2) Nuevo arreglo FILTRADO
+    val respuestaFilter: List<Int> = arregloDinámico
+        .filter { valorActual: Int ->
+            // Expresión o CONDICIÓN
+            val mayoresACinco: Boolean = valorActual > 5
+            return@filter mayoresACinco
+        }
+
+    val respuestaFilterDos = arregloDinámico.filter { it <= 5 }
+    println(respuestaFilter)
+    println(respuestaFilterDos)
+
+    // OR & AND
+    // OR -> ANY  (Alguna cumple?)
+    // AND -> ALL (Todos cumplen?)
+    val respuestaAny: Boolean = arregloDinámico
+        .any{ valorActual: Int ->
+            return@any (valorActual > 5)
+        }
+    println(respuestaAny) // True
+
+    val respuestaAll: Boolean = arregloDinámico
+        .all { valorActual: Int ->
+            return@all (valorActual > 5)
+        }
+    println(respuestaAll) // False
+
+    // REDUCE
+    // 1) Acumulador
+    // 2) Valor actual
+    // 3) Nuevo acumulador
+    val respuestaReduce: Int = arregloDinámico
+        .reduce { acumulador, valorActual ->
+            return@reduce acumulador + valorActual
+        }
+    println(respuestaReduce) // 36
 }
 
 // void ==> Unit
@@ -89,6 +179,21 @@ class Suma(unoParámetro: Int, dosParámetro: Int) : Números(unoParámetro, dos
         this.soyPublicoExplicito
         soyPublicoImplícito // this. OPCIONAL (propiedades, métodos)
     }
+
+    constructor(uno: Int?, dos: Int) : this(
+        if (uno == null) 0 else uno,
+        dos
+    )
+
+    constructor(uno: Int, dos: Int?) : this(
+        uno,
+        if (dos == null) 0 else dos
+    )
+
+    constructor(uno: Int?, dos: Int?) : this(
+        if (uno == null) 0 else uno,
+        if (dos == null) 0 else dos
+    )
 
     // public fun sumar()Int{ (Modificar "public" es OPCIONAL
     fun sumar(): Int {
