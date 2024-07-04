@@ -2,6 +2,6 @@
 <resources>
 <string name="app_name">2024ASWGR2ASJC</string>
     <string name="saludo">English Portrait!</string>
-    <color name="bgColor">#956932</color>
-    <color name="textColor">#587512</color>
+    <color name="bgColor">#C4EBFF</color>
+    <color name="textColor">#1A5B7C</color>
 </resources>

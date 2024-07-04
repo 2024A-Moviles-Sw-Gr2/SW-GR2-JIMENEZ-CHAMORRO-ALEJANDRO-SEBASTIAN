@@ -2,6 +2,6 @@
 <resources>
 <string name="app_name">2024ASWGR2ASJC</string>
     <string name="saludo">English Landscape!</string>
-    <color name="bgColor">#953786</color>
-    <color name="textColor">#598463</color>
+    <color name="bgColor">#FFD9D1</color>
+    <color name="textColor">#841700</color>
 </resources>
