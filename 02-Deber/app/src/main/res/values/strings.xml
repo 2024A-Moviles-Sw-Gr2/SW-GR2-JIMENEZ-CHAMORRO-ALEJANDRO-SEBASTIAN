@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Deber02</string>
+
+    <string-array name="string_array_opciones">
+        <item>Editar</item>
+        <item>Eliminar</item>
+        <item>Ver laptops</item>
+    </string-array>
+</resources>
