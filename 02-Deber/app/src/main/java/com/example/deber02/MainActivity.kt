@@ -1,6 +1,7 @@
 package com.example.deber02
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ContextMenu
@@ -10,15 +11,25 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 
 class MainActivity : AppCompatActivity() {
     private var fabricas: ArrayList<Fabrica> = arrayListOf()
     private var adapter: ArrayAdapter<Fabrica>? = null
     private var posicionItemSeleccionado = -1
+    private lateinit var mapa: GoogleMap
+    var permisos = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +59,75 @@ class MainActivity : AppCompatActivity() {
         }
 
         registerForContextMenu(listaDeFabricas)
+
+        solicitarPermiso()
+        iniciarLógicaMapa()
+    }
+
+    private fun solicitarPermiso() {
+        val contexto = this.applicationContext
+        val nombrePermisoFine = android.Manifest.permission.ACCESS_FINE_LOCATION
+        val nombrePermisoCoarse = android.Manifest.permission.ACCESS_COARSE_LOCATION
+        val permisoFine = ContextCompat.checkSelfPermission(contexto, nombrePermisoFine)
+        val permisoCoarse = ContextCompat.checkSelfPermission(contexto, nombrePermisoCoarse)
+        val tienePermisos = permisoFine == PackageManager.PERMISSION_GRANTED &&
+                permisoCoarse == PackageManager.PERMISSION_GRANTED
+        if(tienePermisos) {
+            permisos = true
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(nombrePermisoFine, nombrePermisoCoarse),
+                1)
+
+        }
+    }
+
+    private fun iniciarLógicaMapa() {
+        val fragmentoMapa = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        fragmentoMapa.getMapAsync{ googleMap ->
+            mapa = googleMap
+            establecerConfiguraciónMapa()
+            establecerPuntosDeFábricasEnElMapa()
+        }
+    }
+
+    private fun establecerConfiguraciónMapa() {
+        val contexto = this.applicationContext
+        with(mapa) {
+            val nombrePermisoFine = android.Manifest.permission.ACCESS_FINE_LOCATION
+            val nombrePermisoCoarse = android.Manifest.permission.ACCESS_COARSE_LOCATION
+            val permisoFine = androidx.core.content.ContextCompat.checkSelfPermission(contexto, nombrePermisoFine)
+            val permisoCoarse = androidx.core.content.ContextCompat.checkSelfPermission(contexto, nombrePermisoCoarse)
+            val tienePermisos = (permisoFine == android.content.pm.PackageManager.PERMISSION_GRANTED) &&
+                    (permisoCoarse == android.content.pm.PackageManager.PERMISSION_GRANTED)
+            if(tienePermisos) {
+                mapa.isMyLocationEnabled = true
+                uiSettings.isMyLocationButtonEnabled = true
+            }
+            uiSettings.isZoomControlsEnabled = true
+        }
+    }
+
+    private fun establecerPuntosDeFábricasEnElMapa() {
+        val zoom = 10f
+        var tituloAuxiliarPuntoEnElMapa = ""
+        var auxiliarLatLng: LatLng? = null
+
+        this.fabricas.forEach {
+            auxiliarLatLng = LatLng(it.latitud.toDouble(), it.longitud.toDouble())
+            tituloAuxiliarPuntoEnElMapa = it.nombre
+            mapa.addMarker(
+                MarkerOptions().position(auxiliarLatLng!!).title(tituloAuxiliarPuntoEnElMapa)
+            )!!.tag = tituloAuxiliarPuntoEnElMapa
+        }
+        if (this.fabricas.size > 0) {
+            mapa.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    auxiliarLatLng!!, zoom
+                )
+            )
+        }
     }
 
     override fun onCreateContextMenu(

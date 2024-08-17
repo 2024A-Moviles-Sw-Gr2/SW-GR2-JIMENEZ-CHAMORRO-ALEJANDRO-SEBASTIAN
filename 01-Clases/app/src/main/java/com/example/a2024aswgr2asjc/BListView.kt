@@ -16,7 +16,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 
 class BListView : AppCompatActivity() {
-    val arreglo = BBaseDatosMemoria().arregloBEntrenador
+    val arreglo = BBaseDatosMemoria.arregloBEntrenador
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

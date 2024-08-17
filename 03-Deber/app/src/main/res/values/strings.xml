@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Deber003</string>
+    <string name="item_image">Descripción de la imagen</string>
+    <string name="item_text">Texto del ítem</string>
+    <string name="nombre_propietario">Propietario</string>
+    <string name="número_cuenta">Número cuenta</string>
+    <string name="saldo">Saldo</string>
+    <string name="tipo_de_cuenta">Tipo de cuenta</string>
+    <string name="texto_boton">Texto</string>
+</resources>

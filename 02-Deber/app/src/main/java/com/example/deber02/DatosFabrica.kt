@@ -24,6 +24,8 @@ class DatosFabrica : AppCompatActivity() {
         val nombre_fabrica = findViewById<EditText>(R.id.inpt_nombre_fabrica)
         val lugar_fabrica = findViewById<EditText>(R.id.inpt_lugar_fabrica)
         val fundacion_fabrica = findViewById<EditText>(R.id.inpt_fundacion_fabrica)
+        val latitud = findViewById<EditText>(R.id.inpt_latitud)
+        val longitud = findViewById<EditText>(R.id.inpt_longitud)
         val btnDatosFabrica = findViewById<Button>(R.id.btn_datos_fabrica)
 
         val fabricaSeleccionada = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -34,7 +36,13 @@ class DatosFabrica : AppCompatActivity() {
 
         if (fabricaSeleccionada == null) {
             btnDatosFabrica.setOnClickListener {
-                crearFabrica(nombre_fabrica, lugar_fabrica, fundacion_fabrica)
+                crearFabrica(
+                    nombre_fabrica,
+                    lugar_fabrica,
+                    fundacion_fabrica,
+                    latitud,
+                    longitud
+                )
                 goToActivity(MainActivity::class.java)
             }
         } else {
@@ -42,34 +50,55 @@ class DatosFabrica : AppCompatActivity() {
                 fabricaSeleccionada,
                 nombre_fabrica,
                 lugar_fabrica,
-                fundacion_fabrica
+                fundacion_fabrica,
+                latitud,
+                longitud
             )
             btnDatosFabrica.setOnClickListener {
                 actualizarFabrica(
                     fabricaSeleccionada.id,
                     nombre_fabrica,
                     lugar_fabrica,
-                    fundacion_fabrica
+                    fundacion_fabrica,
+                    latitud,
+                    longitud
                 )
                 goToActivity(MainActivity::class.java)
             }
         }
     }
 
-    private fun crearFabrica(nombre: EditText, lugar: EditText, fundacion: EditText) {
+    private fun crearFabrica(
+        nombre: EditText,
+        lugar: EditText,
+        fundacion: EditText,
+        latitud: EditText,
+        longitud: EditText
+    ) {
         BaseDatosMemoriaFabrica.tables!!.crearFabrica(
             nombre.text.toString(),
             lugar.text.toString(),
-            fundacion.text.toString().toInt()
+            fundacion.text.toString().toInt(),
+            latitud.text.toString(),
+            longitud.text.toString()
         )
     }
 
-    private fun actualizarFabrica(id: Int, nombre: EditText, lugar: EditText, fundacion: EditText) {
+    private fun actualizarFabrica(
+        id: Int,
+        nombre: EditText,
+        lugar: EditText,
+        fundacion: EditText,
+        latitud: EditText,
+        longitud: EditText
+    ) {
         BaseDatosMemoriaFabrica.tables!!.actualizarFabrica(
             id,
             nombre.text.toString(),
             lugar.text.toString(),
-            fundacion.text.toString().toInt()
+            fundacion.text.toString().toInt(),
+            latitud.text.toString(),
+            longitud.text.toString()
         )
     }
 
@@ -77,11 +106,15 @@ class DatosFabrica : AppCompatActivity() {
         fabrica: Fabrica,
         nombre: EditText,
         lugar: EditText,
-        fundacion: EditText
+        fundacion: EditText,
+        latitud: EditText,
+        longitud: EditText
     ) {
         nombre.setText(fabrica.nombre)
         lugar.setText(fabrica.lugar)
         fundacion.setText(fabrica.año_fundacion.toString())
+        latitud.setText(fabrica.latitud)
+        longitud.setText(fabrica.longitud)
     }
 
     private fun goToActivity(

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper
 
 class SqliteHelper(
     context: Context?
-) : SQLiteOpenHelper(context, "AndroidApp", null, 1) {
+) : SQLiteOpenHelper(context, "AndroidApp", null, 2) {
 
     override fun onCreate(db: SQLiteDatabase?) {
         val tablaFabrica = """
@@ -15,7 +15,9 @@ class SqliteHelper(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nombre VARCHAR(100),
                 lugar VARCHAR(50),
-                anio_fundacion INTEGER
+                anio_fundacion INTEGER,
+                latitud VARCHAR(50),
+                longitud VARCHAR(50)
             );
         """.trimIndent()
 
@@ -30,22 +32,28 @@ class SqliteHelper(
             );
         """.trimIndent()
 
+
         db?.execSQL(tablaFabrica)
         db?.execSQL(tablaLaptop)
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {}
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+    }
 
     fun crearFabrica(
         nombre: String,
         lugar: String,
-        anio_fundacion: Int
+        anio_fundacion: Int,
+        latitud: String,
+        longitud: String
     ): Boolean {
         val writeDB = writableDatabase
         val valuesToStore = ContentValues()
         valuesToStore.put("nombre", nombre)
         valuesToStore.put("lugar", lugar)
         valuesToStore.put("anio_fundacion", anio_fundacion)
+        valuesToStore.put("latitud", latitud)
+        valuesToStore.put("longitud", longitud)
 
         val storeResult = writeDB.insert(
             "Fabrica",
@@ -75,7 +83,9 @@ class SqliteHelper(
                         queryResult.getInt(0),
                         queryResult.getString(1),
                         queryResult.getString(2),
-                        queryResult.getInt(3)
+                        queryResult.getInt(3),
+                        queryResult.getString(4),
+                        queryResult.getString(5)
                     )
                 )
             } while (queryResult.moveToNext())
@@ -90,13 +100,17 @@ class SqliteHelper(
         id: Int,
         nombre: String,
         lugar: String,
-        anio_fundacion: Int
+        anio_fundacion: Int,
+        latitud: String,
+        longitud: String
     ): Boolean {
         val writeDB = writableDatabase
         val valuesToUpdate = ContentValues()
         valuesToUpdate.put("nombre", nombre)
         valuesToUpdate.put("lugar", lugar)
         valuesToUpdate.put("anio_fundacion", anio_fundacion)
+        valuesToUpdate.put("latitud", latitud)
+        valuesToUpdate.put("longitud", longitud)
 
         val parametersUpdateQuery = arrayOf(id.toString())
         val updateResult = writeDB.update(

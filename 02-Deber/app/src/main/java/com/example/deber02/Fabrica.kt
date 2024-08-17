@@ -7,13 +7,17 @@ class Fabrica(
     var id: Int,
     var nombre: String,
     var lugar: String,
-    var año_fundacion: Int
+    var año_fundacion: Int,
+    var latitud: String,
+    var longitud: String
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readInt()
+        parcel.readInt(),
+        parcel.readString()!!,
+        parcel.readString()!!
     ) {
     }
 
@@ -26,6 +30,8 @@ class Fabrica(
         parcel.writeString(nombre)
         parcel.writeString(lugar)
         parcel.writeInt(año_fundacion)
+        parcel.writeString(latitud)
+        parcel.writeString(longitud)
     }
 
     override fun describeContents(): Int {

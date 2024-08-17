@@ -106,6 +106,30 @@ MainActivity : AppCompatActivity() {
             intentExplicito.putExtra("entrenador", BEntrenador(1, "Adrian", null))
             callbackContenidoIntentExplicito.launch(intentExplicito)
         }
+
+        EBaseDeDatos.tablaEntreandor = ESqliteHelperEntrenador(this)
+        val botonSqlite = findViewById<Button>(
+            R.id.btn_sqlite
+        )
+
+        botonSqlite.setOnClickListener(){
+            irActividad(ECrudEntrenador::class.java)
+        }
+
+        val BotonGMaps = findViewById<Button>(R.id.btn_google_maps)
+        BotonGMaps.setOnClickListener {
+            irActividad(GGoogleMapsActivity::class.java)
+        }
+
+        val BotonFirebaseAuth = findViewById<Button>(R.id.btn_intent_firebase_ui)
+        BotonFirebaseAuth.setOnClickListener(){
+            irActividad(HFirebaseUIAuth::class.java)
+        }
+
+        val botonRView = findViewById<Button>(R.id.btn_recycler_view)
+        botonRView.setOnClickListener(){
+            irActividad(FRecyclerView::class.java)
+        }
     }
 
     fun irActividad (

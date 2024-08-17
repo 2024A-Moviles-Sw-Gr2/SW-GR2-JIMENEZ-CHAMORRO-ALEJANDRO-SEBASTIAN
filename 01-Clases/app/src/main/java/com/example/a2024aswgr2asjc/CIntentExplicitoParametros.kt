@@ -1,6 +1,8 @@
 package com.example.a2024aswgr2asjc
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -11,10 +13,31 @@ class CIntentExplicitoParametros : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_cintent_explicito_parametros)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.cl_sqlite)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        setContentView(R.layout.activity_cintent_explicito_parametros)
+        // Obtener los datos que nos envíen se usa 'Intent'
+        val nombre = intent.getStringExtra("nombre")
+        val apellido = intent.getStringExtra("apellido")
+        val edad = intent.getIntExtra("edad", 0)
+        val entrenador = intent.getParcelableExtra<BEntrenador>("entrenador")
+        val boton = findViewById<Button>(R.id.btn_devolver_respuesta)
+        boton.setOnClickListener {
+            devolverRespuesta()
+        }
+    }
+
+    fun devolverRespuesta() {
+        val intentDevolverRespuesta = Intent()
+        intentDevolverRespuesta.putExtra("nombreModificado", "Adrian")
+        // devolver más parámetros si queremos
+        setResult(
+            RESULT_OK, intentDevolverRespuesta
+        )
+        finish()
     }
 }
